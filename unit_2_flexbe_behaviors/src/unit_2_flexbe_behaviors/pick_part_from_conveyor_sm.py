@@ -54,8 +54,8 @@ class pick_part_from_conveyorSM(Behavior):
 		joint_names = ['linear_arm_actuator_joint', 'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 		pick1_group = 'robot1'
 		pick2_group = 'robot2'
-		# x:30 y:365, x:983 y:190, x:983 y:590, x:983 y:390
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed', 'Not found', 'parameter error'], output_keys=['type_part', 'namespace_move', 'gripper_service', 'end_pose'])
+		# x:30 y:365, x:983 y:190
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], output_keys=['type_part', 'namespace_move', 'gripper_service', 'end_pose'])
 		_state_machine.userdata.conveyor_topic = []
 		_state_machine.userdata.conveyor_frame = []
 		_state_machine.userdata.ref_world = []
@@ -103,14 +103,14 @@ class pick_part_from_conveyorSM(Behavior):
 			# x:485 y:24
 			OperatableStateMachine.add('Config Robot 1 info',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='robot_home1'),
-										transitions={'found': 'Config Robot 2 info', 'not_found': 'Not found'},
+										transitions={'found': 'Config Robot 2 info', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'robot_home1'})
 
 			# x:635 y:25
 			OperatableStateMachine.add('Config Robot 2 info',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='robot_home2'),
-										transitions={'found': 'gripper info', 'not_found': 'Not found'},
+										transitions={'found': 'gripper info', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'robot_home2'})
 
@@ -124,21 +124,21 @@ class pick_part_from_conveyorSM(Behavior):
 			# x:1134 y:24
 			OperatableStateMachine.add('Move Robot 1 Home',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'Move Robot 2 Home', 'planning_failed': 'Wait 1', 'control_failed': 'Wait 1', 'param_error': 'parameter error'},
+										transitions={'reached': 'Move Robot 2 Home', 'planning_failed': 'Wait 1', 'control_failed': 'Wait 1', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'robot_home1', 'move_group': 'move_group', 'action_topic_namespace': 'action_topic_namespace1', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:1284 y:24
 			OperatableStateMachine.add('Move Robot 2 Home',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'namespace info', 'planning_failed': 'Wait 2', 'control_failed': 'Wait 2', 'param_error': 'parameter error'},
+										transitions={'reached': 'namespace info', 'planning_failed': 'Wait 2', 'control_failed': 'Wait 2', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'robot_home2', 'move_group': 'move_group', 'action_topic_namespace': 'action_topic_namespace2', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
 			# x:1134 y:724
 			OperatableStateMachine.add('Move Robot 2 end',
 										SrdfStateToMoveitAriac(),
-										transitions={'reached': 'finished', 'planning_failed': 'Wait 6', 'control_failed': 'Wait 6', 'param_error': 'parameter error'},
+										transitions={'reached': 'finished', 'planning_failed': 'Wait 6', 'control_failed': 'Wait 6', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'end_pose', 'move_group': 'move_group', 'action_topic_namespace': 'namespace_move', 'action_topic': 'action_topic', 'robot_name': 'robot_name', 'config_name_out': 'config_name_out', 'move_group_out': 'move_group_out', 'robot_name_out': 'robot_name_out', 'action_topic_out': 'action_topic_out', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -159,7 +159,7 @@ class pick_part_from_conveyorSM(Behavior):
 			# x:1585 y:224
 			OperatableStateMachine.add('Offset info_3',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='offset_part'),
-										transitions={'found': 'Text To Float', 'not_found': 'Not found'},
+										transitions={'found': 'Text To Float', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'offset_part'})
 
@@ -203,28 +203,28 @@ class pick_part_from_conveyorSM(Behavior):
 			# x:1285 y:724
 			OperatableStateMachine.add('end pose info',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='end_pose'),
-										transitions={'found': 'Move Robot 2 end', 'not_found': 'Not found'},
+										transitions={'found': 'Move Robot 2 end', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'end_pose'})
 
 			# x:795 y:25
 			OperatableStateMachine.add('gripper info',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='gripper_service'),
-										transitions={'found': 'Deactivate gripper', 'not_found': 'Not found'},
+										transitions={'found': 'Deactivate gripper', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'gripper_service'})
 
 			# x:1435 y:24
 			OperatableStateMachine.add('namespace info',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='robot_action_topic_namespace'),
-										transitions={'found': 'pregrasp pose', 'not_found': 'Not found'},
+										transitions={'found': 'pregrasp pose', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'namespace_move'})
 
 			# x:1585 y:24
 			OperatableStateMachine.add('pregrasp pose',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='info_parts', index_title='part', column_title='robot_pregrasp'),
-										transitions={'found': 'Move to Pregrasp', 'not_found': 'Not found'},
+										transitions={'found': 'Move to Pregrasp', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'pregrasp_pose'})
 

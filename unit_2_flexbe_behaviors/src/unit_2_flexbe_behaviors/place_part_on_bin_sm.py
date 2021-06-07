@@ -46,8 +46,8 @@ class place_part_on_binSM(Behavior):
 
 
 	def create(self):
-		# x:1133 y:440, x:533 y:440, x:233 y:440
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed', 'Not Found'], input_keys=['namespace_move', 'type_part', 'gripper_service', 'end_pose'])
+		# x:1133 y:440, x:533 y:440
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'], input_keys=['namespace_move', 'type_part', 'gripper_service', 'end_pose'])
 		_state_machine.userdata.move_group = 'manipulator'
 		_state_machine.userdata.action_topic = '/move_group'
 		_state_machine.userdata.robot_name = ''
@@ -70,7 +70,7 @@ class place_part_on_binSM(Behavior):
 			# x:185 y:24
 			OperatableStateMachine.add('Lookup pregrasp',
 										LookupFromTableState(parameter_name='/ariac_tables_unit2', table_name='bin_choice', index_title='bin', column_title='robot_pregrasp'),
-										transitions={'found': 'Move to bin Pregrasp', 'not_found': 'Not Found'},
+										transitions={'found': 'Move to bin Pregrasp', 'not_found': 'failed'},
 										autonomy={'found': Autonomy.Off, 'not_found': Autonomy.Off},
 										remapping={'index_value': 'type_part', 'column_value': 'robot_pregrasp'})
 

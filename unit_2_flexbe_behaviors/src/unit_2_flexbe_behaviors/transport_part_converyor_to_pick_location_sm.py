@@ -48,8 +48,8 @@ class Transport_part_converyor_to_pick_locationSM(Behavior):
 
 
 	def create(self):
-		# x:1139 y:392, x:205 y:353, x:351 y:350, x:512 y:351
-		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed', 'Not found', 'Parameter Error'])
+		# x:1139 y:392, x:130 y:415
+		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 		_state_machine.userdata.type_part = ''
 		_state_machine.userdata.namespace_move = ''
 		_state_machine.userdata.gripper_service = ''
@@ -71,15 +71,15 @@ class Transport_part_converyor_to_pick_locationSM(Behavior):
 			# x:610 y:37
 			OperatableStateMachine.add('place_part_on_bin',
 										self.use_behavior(place_part_on_binSM, 'place_part_on_bin'),
-										transitions={'finished': 'finished', 'failed': 'failed', 'Not Found': 'Not found'},
-										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit, 'Not Found': Autonomy.Inherit},
+										transitions={'finished': 'finished', 'failed': 'failed'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
 										remapping={'namespace_move': 'namespace_move', 'type_part': 'type_part', 'gripper_service': 'gripper_service', 'end_pose': 'end_pose'})
 
 			# x:369 y:34
 			OperatableStateMachine.add('pick_part_from_conveyor',
 										self.use_behavior(pick_part_from_conveyorSM, 'pick_part_from_conveyor'),
-										transitions={'finished': 'place_part_on_bin', 'failed': 'failed', 'Not found': 'Not found', 'parameter error': 'Parameter Error'},
-										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit, 'Not found': Autonomy.Inherit, 'parameter error': Autonomy.Inherit},
+										transitions={'finished': 'place_part_on_bin', 'failed': 'failed'},
+										autonomy={'finished': Autonomy.Inherit, 'failed': Autonomy.Inherit},
 										remapping={'type_part': 'type_part', 'namespace_move': 'namespace_move', 'gripper_service': 'gripper_service', 'end_pose': 'end_pose'})
 
 
