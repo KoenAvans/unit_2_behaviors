@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="place_part_on_bin">
+
+	<executable package_path="unit_2_flexbe_behaviors.place_part_on_bin_sm" class="place_part_on_binSM" />
+	<tagstring></tagstring>
+	<author>Koen Manschot</author>
+	<date>Wed Jun 02 2021</date>
+	<description>
+		places the part on the robot in the bin
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

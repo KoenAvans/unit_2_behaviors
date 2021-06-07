@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="Transport_part_converyor_to_pick_location">
+
+	<executable package_path="unit_2_flexbe_behaviors.transport_part_converyor_to_pick_location_sm" class="Transport_part_converyor_to_pick_locationSM" />
+	<tagstring></tagstring>
+	<author>Koen Manschot</author>
+	<date>Mon Jun 07 2021</date>
+	<description>
+		transporteren part op de conveyor naar de gewenste bin. (Unit 2 compleet)
+	</description>
+
+
+	<!-- Contained Behaviors -->
+	<contains name="transport_ conveyor_to_pick_location" />
+	<contains name="place_part_on_bin" />
+	<contains name="pick_part_from_conveyor" />
+
+	<!-- Available Parameters -->
+
+</behavior>

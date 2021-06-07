@@ -12,7 +12,6 @@
 
 
 	<!-- Contained Behaviors -->
-	<contains name="transport_ conveyor_to_pick_location" />
 
 	<!-- Available Parameters -->
 

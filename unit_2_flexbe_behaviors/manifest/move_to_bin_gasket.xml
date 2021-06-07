@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="Move_to_bin_gasket">
+
+	<executable package_path="unit_2_flexbe_behaviors.move_to_bin_gasket_sm" class="Move_to_bin_gasketSM" />
+	<tagstring></tagstring>
+	<author>Koen Manschot</author>
+	<date>Mon Jun 07 2021</date>
+	<description>
+		move to bin gearpart
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>
