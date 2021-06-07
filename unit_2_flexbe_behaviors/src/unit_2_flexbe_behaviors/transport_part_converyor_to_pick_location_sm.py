@@ -48,7 +48,7 @@ class Transport_part_converyor_to_pick_locationSM(Behavior):
 
 
 	def create(self):
-		# x:1139 y:392, x:233 y:340, x:333 y:340, x:433 y:340
+		# x:1139 y:392, x:205 y:353, x:351 y:350, x:512 y:351
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed', 'Not found', 'Parameter Error'])
 		_state_machine.userdata.type_part = ''
 		_state_machine.userdata.namespace_move = ''
